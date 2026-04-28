@@ -423,6 +423,19 @@ mazers-api/
 - A célula de entrada/saída deve estar **adjacente a um caminho** interno.
 - Se a quantidade solicitada de entradas/saídas exceder as posições válidas disponíveis na borda, o algoritmo retornará erro.
 
+### 7.3 Cálculo de Rota (Pathfinding) - Frontend
+
+O cálculo da rota mais curta entre uma Entrada e a Saída mais próxima será processado **no cliente (Frontend)** via JavaScript, para evitar chamadas de API desnecessárias.
+- **Algoritmo**: BFS (Breadth-First Search) adaptado para grid 2D (células adjacentes norte, sul, leste, oeste).
+- **Entrada**: Estado atual em memória da matriz de células (ignorando células `wall`).
+- **Saída**: Uma lista de coordenadas `[row, col]` correspondentes ao menor caminho, ou um array vazio se insolvável.
+- **Visualização**: O CSS irá aplicar uma classe específica `.maze-cell.route-path` para destacar o caminho retornado no DOM temporariamente.
+
+### 7.4 Exportação JSON
+
+A exportação de um labirinto como `.json` ocorrerá **no cliente**.
+- O JavaScript obterá a estrutura construída pelas instâncias da memória, usará `JSON.stringify()`, e formatará como um Blob `application/json` invocando um download programático no navegador.
+
 ---
 
 ## 8. Comunicação Frontend ↔ Backend

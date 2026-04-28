@@ -63,40 +63,25 @@
 
 ### 2.1 Backend — Mazes Module
 
-- [ ] Criar módulo `mazes/` (module, controller, service)
-- [ ] Implementar DTOs com class-validator
-  - [ ] `create-maze.dto.ts` (alias, rows, cols, tileSize, entrances, exits, grid)
-  - [ ] `update-maze.dto.ts` (partial de create)
-- [ ] Implementar `mazes.service.ts`
-  - [ ] `findAll(page, limit, search)` — listagem paginada (sem grid no retorno)
-  - [ ] `findOne(id)` — retorna labirinto completo (com grid)
-  - [ ] `create(dto)` — cria novo labirinto
-  - [ ] `update(id, dto)` — atualiza labirinto existente
-  - [ ] `remove(id)` — remove labirinto
-- [ ] Implementar `mazes.controller.ts`
-  - [ ] `GET /mazes` (listagem paginada + busca por alias)
-  - [ ] `GET /mazes/:id`
-  - [ ] `POST /mazes`
-  - [ ] `PATCH /mazes/:id`
-  - [ ] `DELETE /mazes/:id`
-- [ ] Implementar validação do grid
-  - [ ] Dimensões do grid devem corresponder a rows × cols
-  - [ ] Quantidade de entradas/saídas no grid deve corresponder aos parâmetros
-  - [ ] Entradas/saídas devem estar na borda do grid
-  - [ ] Tipos válidos: wall, path
-  - [ ] Terrenos válidos: stone, sand
-  - [ ] Roles válidos: entrance, exit, null
-- [ ] Configurar CORS no `main.ts`
-- [ ] Configurar rate limiting (`@nestjs/throttler`)
-- [ ] Configurar global validation pipe
-- [ ] Testes unitários do service
-- [ ] Testes E2E dos endpoints
+### 2.1 Módulo Mazes (CRUD)
 
-### 2.2 Backend — Prisma Service
+- [x] Gerar módulo, controller e service (`npx nest g resource mazes`)
+- [x] Criar DTOs (`create-maze.dto.ts`, `update-maze.dto.ts`) com class-validator
+- [x] **POST /mazes**: Cria um novo labirinto (grid JSON gerado no front ou auto-gerado)
+- [x] **GET /mazes**: Lista labirintos (suporte a paginação `?page=1&limit=10`)
+- [x] **GET /mazes/:id**: Retorna detalhes de um labirinto específico
+- [x] **PATCH /mazes/:id**: Atualiza o grid ou alias
+- [x] **DELETE /mazes/:id**: Remove labirinto persistido
+- [x] Integração do Service com PrismaService
+- [x] Tratamento de erros HTTP padronizados (NotFoundException para IDs inválidos)
+- [x] Validação do grid (dimensões, bordas, tipos, terrenos, roles)
 
-- [ ] Criar módulo `prisma/` (module, service)
-- [ ] Implementar `prisma.service.ts` (extends PrismaClient, onModuleInit)
-- [ ] Registrar como módulo global
+### 2.2 Camada de Segurança
+
+- [x] Configurar Global Validation Pipe (`whitelist: true`, `forbidNonWhitelisted: true`) no `main.ts`
+- [x] Limitar entradas de tamanho máximo do JSON do grid para evitar DoS
+- [x] Configurar controle CORS habilitado para domínios de frontend
+- [x] Implementar rate limiting global (100 req/minuto) via `@nestjs/throttler`
 
 ---
 
@@ -104,36 +89,18 @@
 
 **Agentes**: API/Backend, Architect
 
-### 3.1 Backend — Generator Module
+### 3.1 Módulo Generator
 
-- [ ] Criar módulo `generator/` (module, controller, service)
-- [ ] Implementar interface `MazeAlgorithm`
-  ```typescript
-  interface MazeAlgorithm {
-    generate(rows: number, cols: number, entrances: number, exits: number): MazeCell[][];
-  }
-  ```
-- [ ] Implementar `algorithms/recursive-backtracking.ts`
-  - [ ] Inicializar grid com todas as células como parede
-  - [ ] Implementar DFS com backtracking
-  - [ ] Cavar caminhos (marcar como path) durante travessia
-  - [ ] Posicionar entradas na borda esquerda/superior
-  - [ ] Posicionar saídas na borda direita/inferior
-  - [ ] Garantir adjacência entre entrada/saída e caminho interno
-  - [ ] Definir terreno aleatório (stone/sand) para cada célula de caminho
-- [ ] Implementar `generator.service.ts`
-  - [ ] `generate(rows, cols, entrances, exits)` — orquestra a geração
-  - [ ] Validação: parâmetros válidos, entradas/saídas cabem na borda
-- [ ] Implementar `generator.controller.ts`
-  - [ ] `POST /generator/generate`
-- [ ] Implementar DTOs de geração (generate-maze.dto.ts)
-- [ ] Testes unitários do algoritmo
-  - [ ] Grid gerado tem dimensões corretas
-  - [ ] Grid tem quantidade correta de entradas e saídas
-  - [ ] Entradas e saídas estão na borda
-  - [ ] Labirinto é solvável (pelo menos um caminho entre entrada e saída)
-  - [ ] Não há ilhas (áreas desconectadas)
-- [ ] Testes E2E do endpoint
+- [x] Criar módulo, controller e service `generator`
+- [x] Criar DTO para requisição de auto-geração (rows, cols, entrances, exits)
+- [x] **POST /generator**: Endpoint que recebe parâmetros e retorna o grid `JSON` gerado
+- [x] Isolar lógica do algoritmo do fluxo HTTP (Design Pattern: Strategy)
+
+### 3.2 Implementação: Recursive Backtracking
+
+- [x] Base do algoritmo (DFS com stack pseudo-randomizado)
+- [x] Função auxiliar para posicionamento inteligente de entradas/saídas nas bordas
+- [x] Adaptação da saída matricial para o array de objetos JSONB padrão (type, terrain, role)
 
 ---
 
@@ -179,7 +146,13 @@
   - [ ] Validação: não exceder quantidade configurada de entradas/saídas
   - [ ] Ao mudar ferramenta ativa, cursor/feedback muda
 
-### 4.4 JS — Painel de Configuração (Controls)
+### 4.4 JS — Pathfinding & Exportação
+
+- [ ] Implementar script de resolução `js/pathfinding.js` com algoritmo BFS
+- [ ] Implementar destacamento visual (classe `.route-path`) de rota no grid
+- [ ] Implementar exportação baseada em Blob de um arquivo `maze.json`
+
+### 4.5 JS — Painel de Configuração (Controls)
 
 - [ ] Implementar `js/controls.js`
   - [ ] Input: **Linhas** (number, min: 2, max: 100, default: 10)
@@ -191,6 +164,8 @@
   - [ ] Botão: **Aplicar** — re-renderiza grid com novos parâmetros (reseta grid)
   - [ ] Botão: **Salvar** — persiste labirinto via API
   - [ ] Botão: **Auto-Gerar** — solicita geração ao servidor e carrega no grid
+  - [ ] Botão: **Calcular Rota** — destaca a menor rota com BFS
+  - [ ] Botão: **Exportar JSON** — gera e baixa o JSON com os dados do labirinto
   - [ ] Validação em tempo real dos inputs
 
 ---

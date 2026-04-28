@@ -114,6 +114,8 @@ Um painel web que:
 | **Edição de labirinto existente** | P0 | Carregar labirinto do banco para edição |
 | **Exclusão de labirinto** | P0 | Remover labirinto do banco |
 | **Auto-geração de labirinto** | P0 | Gerar labirinto automaticamente via algoritmo no servidor |
+| **Cálculo de Rota (Pathfinding)** | P1 | Botão para calcular e destacar visualmente o menor caminho entre entrada e saída no grid |
+| **Exportar JSON** | P1 | Botão para baixar o arquivo JSON com a estrutura atual do grid (exportação direta no client-side) |
 
 ### 5.2 Infraestrutura (MVP)
 
@@ -131,8 +133,7 @@ Um painel web que:
 | Autenticação de usuário | v2.0 | Login com controle de acesso |
 | Níveis de permissão | v2.0 | Roles (admin, editor, viewer) |
 | Novos tipos de terreno | v2.0 | Água, Lava, Grama, etc. |
-| Exportação de labirinto | v2.0 | Exportar como imagem (PNG/SVG) ou arquivo JSON |
-| Algoritmos de pathfinding | v3.0 | Visualizar caminho mínimo entre entrada e saída |
+| Exportação como Imagem | v2.0 | Exportar como imagem (PNG/SVG) |
 | Multiplayer maze | v3.0 | Vários usuários editando o mesmo labirinto |
 | Mobile app (Android) | v3.0 | Versão nativa para dispositivos Android |
 
