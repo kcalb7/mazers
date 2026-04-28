@@ -219,13 +219,16 @@
 
 ### 5.2 JS — Lista de Labirintos
 
-- [ ] Implementar `js/list.js`
-  - [ ] Função `loadMazes(page, search)` — busca labirintos do backend
-  - [ ] Função `renderMazeList(mazes)` — renderiza cards/items
-  - [ ] Função `deleteMaze(id)` — exclui com confirmação
-  - [ ] Paginação (botões prev/next, indicador de página)
-  - [ ] Busca por alias (input de busca com debounce)
-  - [ ] Ao clicar em "Editar": carregar labirinto no editor
+- [x] Implementar `js/list.js`
+  - [x] `loadMazesList()` — realiza fetch GET `/mazes` (com suporte a cache/paginação no futuro)
+  - [x] Renderiza cada item como `.maze-card`
+  - [x] Mensagem de "Nenhum labirinto salvo" caso vazio
+- [x] Cada card deve exibir: Alias (ou texto vazio), Linhas, Colunas, Data de Criação
+- [x] Ações em cada card:
+  - [x] Botão **Editar**: transita para a aba Editor, realizando um `GET /mazes/:id` e preenchendo o `loadGrid()`
+  - [x] Botão **Excluir**: confirma exclusão, faz um `DELETE /mazes/:id` e re-renderiza lista
+- [x] Interação entre abas (tabs)
+  - [x] Atualizar lista sempre que a aba "Lista de Labirintos" for focada
 
 ---
 

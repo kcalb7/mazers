@@ -1,5 +1,5 @@
-// Entry point
 import { initControls } from './controls.js';
+import { loadMazesList } from './list.js';
 
 document.addEventListener('DOMContentLoaded', () => {
     initControls();
@@ -21,5 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
         navEditor.classList.remove('active');
         viewList.style.display = 'flex';
         viewEditor.style.display = 'none';
+        loadMazesList();
     });
 });
