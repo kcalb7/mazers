@@ -1,0 +1,17 @@
+version: '3.8'
+services:
+  db:
+    image: postgres:16-alpine
+    container_name: mazers_db
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mazers
+    ports:
+      - '5440:5432'
+    volumes:
+      - mazers-db-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+volumes:
+  mazers-db-data:

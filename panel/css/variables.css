@@ -1,0 +1,40 @@
+:root {
+  /* Cores Principais - Tema Escuro */
+  --bg-main: #1a1a2e;
+  --bg-secondary: #16213e;
+  --surface: #0f3460;
+  
+  /* Acentos */
+  --accent-primary: #e94560;
+  --accent-secondary: #533483;
+  
+  /* Textos */
+  --text-main: #eaeaea;
+  --text-secondary: #a0a0b0;
+  
+  /* Cores do Labirinto */
+  --cell-wall: #2c3e50;
+  --cell-path: #ecf0f1;
+  --cell-entrance: #2ecc71;
+  --cell-exit: #e74c3c;
+  --terrain-stone: #7f8c8d;
+  --terrain-sand: #f39c12;
+  
+  /* Tipografia */
+  --font-family: 'Inter', system-ui, sans-serif;
+  
+  /* Espaçamentos */
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  
+  /* Bordas */
+  --border-radius: 8px;
+}
+
+body {
+  background-color: var(--bg-main);
+  color: var(--text-main);
+  font-family: var(--font-family);
+}

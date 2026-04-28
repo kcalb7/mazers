@@ -1,0 +1,45 @@
+/* Grid Canvas e Células */
+
+.grid-canvas {
+  /* Será preenchido dinamicamente via JS com display: grid */
+  border: 4px solid var(--bg-secondary);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  max-width: 100%;
+  max-height: 100%;
+}
+
+.maze-cell {
+  background-color: var(--cell-wall);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.maze-cell:hover {
+  opacity: 0.8;
+}
+
+/* Tipos */
+.maze-cell[data-type="wall"] {
+  background-color: var(--cell-wall);
+}
+.maze-cell[data-type="path"] {
+  background-color: var(--cell-path);
+}
+
+/* Terrenos */
+.maze-cell[data-terrain="stone"][data-type="path"] {
+  background-color: var(--terrain-stone);
+}
+.maze-cell[data-terrain="sand"][data-type="path"] {
+  background-color: var(--terrain-sand);
+}
+
+/* Roles */
+.maze-cell[data-role="entrance"] {
+  background-color: var(--cell-entrance) !important;
+}
+.maze-cell[data-role="exit"] {
+  background-color: var(--cell-exit) !important;
+}

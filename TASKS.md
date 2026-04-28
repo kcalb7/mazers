@@ -22,38 +22,38 @@
 
 ### 1.1 Backend — Inicialização do Projeto NestJS
 
-- [ ] Criar projeto NestJS (`npx -y @nestjs/cli new mazers-api`)
-- [ ] Configurar `tsconfig.json` (strict mode)
-- [ ] Configurar `.gitignore` (.env, node_modules, dist/)
-- [ ] Inicializar repositório Git
-- [ ] Criar estrutura de branch (`main` → `develop`)
-- [ ] Criar README.md com instruções de setup
-- [ ] Configurar ESLint + Prettier
+- [x] Criar projeto NestJS (`npx -y @nestjs/cli new mazers-api`)
+- [x] Configurar `tsconfig.json` (strict mode)
+- [x] Configurar `.gitignore` (.env, node_modules, dist/)
+- [x] Inicializar repositório Git
+- [x] Criar estrutura de branch (`main` → `develop`)
+- [x] Criar README.md com instruções de setup
+- [x] Configurar ESLint + Prettier
 - [ ] Rodar `npm audit` — garantir zero vulnerabilidades altas/críticas
 
 ### 1.2 Backend — Configuração do Banco de Dados
 
-- [ ] Instalar e configurar Prisma ORM (`npm install prisma @prisma/client`)
-- [ ] Criar `docker-compose.yml` (PostgreSQL para dev)
-- [ ] Configurar conexão com PostgreSQL (`.env`)
-- [ ] Criar schema Prisma com tabela `mazes`
-  - [ ] Campos: id, alias, rows, cols, tile_size, entrances, exits, grid (Json), created_at, updated_at
-- [ ] Gerar primeira migration (`npx prisma migrate dev`)
-- [ ] Validar que schema aplica corretamente
+- [x] Instalar e configurar Prisma ORM (`npm install prisma @prisma/client`)
+- [x] Criar `docker-compose.yml` (PostgreSQL para dev)
+- [x] Configurar conexão com PostgreSQL (`.env`)
+- [x] Criar schema Prisma com tabela `mazes`
+  - [x] Campos: id, alias, rows, cols, tile_size, entrances, exits, grid (Json), created_at, updated_at
+- [x] Gerar primeira migration (`npx prisma migrate dev`)
+- [x] Validar que schema aplica corretamente
 
 ### 1.3 Frontend — Inicialização do Projeto HTML/CSS/JS
 
-- [ ] Criar diretório `mazers-panel/`
-- [ ] Criar `index.html` com estrutura base (meta tags, favicon, Google Fonts)
-- [ ] Criar estrutura de diretórios: `css/`, `js/`, `assets/`
-- [ ] Criar `css/reset.css` (CSS reset)
-- [ ] Criar `css/variables.css` (design tokens: cores, fontes, espaçamentos)
-- [ ] Criar `css/layout.css` (layout geral do painel)
-- [ ] Criar `css/components.css` (botões, inputs, cards)
-- [ ] Criar `js/app.js` (entry point com `type="module"`)
-- [ ] Configurar dev server (`npx -y live-server` ou `npx -y http-server`)
-- [ ] Inicializar repositório Git
-- [ ] Criar README.md com instruções de setup
+- [x] Criar diretório `mazers-panel/`
+- [x] Criar `index.html` com estrutura base (meta tags, favicon, Google Fonts)
+- [x] Criar estrutura de diretórios: `css/`, `js/`, `assets/`
+- [x] Criar `css/reset.css` (CSS reset)
+- [x] Criar `css/variables.css` (design tokens: cores, fontes, espaçamentos)
+- [x] Criar `css/layout.css` (layout geral do painel)
+- [x] Criar `css/components.css` (botões, inputs, cards)
+- [x] Criar `js/app.js` (entry point com `type="module"`)
+- [x] Configurar dev server (`npx -y live-server` ou `npx -y http-server`)
+- [x] Inicializar repositório Git
+- [x] Criar README.md com instruções de setup
 
 ---
 

@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mazers - Painel de Controle</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/reset.css">
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/grid.css">
+    <link rel="stylesheet" href="css/controls.css">
+    <link rel="stylesheet" href="css/list.css">
+</head>
+<body>
+    <header class="app-header">
+        <h1>Mazers <span>Panel</span></h1>
+        <nav>
+            <button id="nav-editor" class="nav-btn active">Editor</button>
+            <button id="nav-list" class="nav-btn">Lista de Labirintos</button>
+        </nav>
+    </header>
+
+    <main id="app-content">
+        <!-- Editor View -->
+        <section id="view-editor" class="view active">
+            <div id="grid-container" class="grid-canvas">
+                <!-- O grid será gerado aqui -->
+            </div>
+            
+            <aside id="controls-panel">
+                <!-- Painel de controles virá aqui -->
+            </aside>
+        </section>
+
+        <!-- List View -->
+        <section id="view-list" class="view" style="display: none;">
+            <div id="mazes-list" class="list-container">
+                <!-- Lista de labirintos virá aqui -->
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>

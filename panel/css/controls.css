@@ -1,0 +1,43 @@
+/* Painéis de Controles abaixo do grid */
+
+#controls-panel {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+.toolbar {
+  display: flex;
+  gap: var(--spacing-sm);
+  flex-wrap: wrap;
+}
+
+.tools-group {
+  display: flex;
+  gap: 2px;
+  background-color: var(--bg-main);
+  padding: 4px;
+  border-radius: var(--border-radius);
+}
+
+.tools-group .btn {
+  border: none;
+}
+
+.tools-group .btn.active {
+  background-color: var(--accent-secondary);
+  color: #fff;
+}
+
+.settings-group {
+  display: flex;
+  gap: var(--spacing-md);
+  flex-wrap: wrap;
+}
+
+.actions-group {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: auto;
+  justify-content: flex-end;
+}

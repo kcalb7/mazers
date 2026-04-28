@@ -1,0 +1,51 @@
+/* Listagem de labirintos salvos */
+
+.list-container {
+  padding: var(--spacing-xl);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--spacing-lg);
+}
+
+.maze-card {
+  background-color: var(--surface);
+  border-radius: var(--border-radius);
+  padding: var(--spacing-md);
+  border: 1px solid var(--bg-secondary);
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.maze-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.maze-card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.maze-card-info {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  display: flex;
+  justify-content: space-between;
+}
+
+.maze-card-actions {
+  display: flex;
+  gap: var(--spacing-sm);
+  margin-top: var(--spacing-sm);
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: var(--spacing-xl);
+  color: var(--text-secondary);
+}
