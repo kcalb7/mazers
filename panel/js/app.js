@@ -1,5 +1,9 @@
-// Exemplo básico de navegação entre as views
+// Entry point
+import { initControls } from './controls.js';
+
 document.addEventListener('DOMContentLoaded', () => {
+    initControls();
+
     const navEditor = document.getElementById('nav-editor');
     const navList = document.getElementById('nav-list');
     const viewEditor = document.getElementById('view-editor');

@@ -63,25 +63,40 @@
 
 ### 2.1 Backend — Mazes Module
 
-### 2.1 Módulo Mazes (CRUD)
+- [x] Criar módulo `mazes/` (module, controller, service)
+- [x] Implementar DTOs com class-validator
+  - [x] `create-maze.dto.ts` (alias, rows, cols, tileSize, entrances, exits, grid)
+  - [x] `update-maze.dto.ts` (partial de create)
+- [x] Implementar `mazes.service.ts`
+  - [x] `findAll(page, limit, search)` — listagem paginada (sem grid no retorno)
+  - [x] `findOne(id)` — retorna labirinto completo (com grid)
+  - [x] `create(dto)` — cria novo labirinto
+  - [x] `update(id, dto)` — atualiza labirinto existente
+  - [x] `remove(id)` — remove labirinto
+- [x] Implementar `mazes.controller.ts`
+  - [x] `GET /mazes` (listagem paginada + busca por alias)
+  - [x] `GET /mazes/:id`
+  - [x] `POST /mazes`
+  - [x] `PATCH /mazes/:id`
+  - [x] `DELETE /mazes/:id`
+- [x] Implementar validação do grid
+  - [x] Dimensões do grid devem corresponder a rows × cols
+  - [x] Quantidade de entradas/saídas no grid deve corresponder aos parâmetros
+  - [x] Entradas/saídas devem estar na borda do grid
+  - [x] Tipos válidos: wall, path
+  - [x] Terrenos válidos: stone, sand
+  - [x] Roles válidos: entrance, exit, null
+- [x] Configurar CORS no `main.ts`
+- [x] Configurar rate limiting (`@nestjs/throttler`)
+- [x] Configurar global validation pipe
+- [ ] Testes unitários do service
+- [ ] Testes E2E dos endpoints
 
-- [x] Gerar módulo, controller e service (`npx nest g resource mazes`)
-- [x] Criar DTOs (`create-maze.dto.ts`, `update-maze.dto.ts`) com class-validator
-- [x] **POST /mazes**: Cria um novo labirinto (grid JSON gerado no front ou auto-gerado)
-- [x] **GET /mazes**: Lista labirintos (suporte a paginação `?page=1&limit=10`)
-- [x] **GET /mazes/:id**: Retorna detalhes de um labirinto específico
-- [x] **PATCH /mazes/:id**: Atualiza o grid ou alias
-- [x] **DELETE /mazes/:id**: Remove labirinto persistido
-- [x] Integração do Service com PrismaService
-- [x] Tratamento de erros HTTP padronizados (NotFoundException para IDs inválidos)
-- [x] Validação do grid (dimensões, bordas, tipos, terrenos, roles)
+### 2.2 Backend — Prisma Service
 
-### 2.2 Camada de Segurança
-
-- [x] Configurar Global Validation Pipe (`whitelist: true`, `forbidNonWhitelisted: true`) no `main.ts`
-- [x] Limitar entradas de tamanho máximo do JSON do grid para evitar DoS
-- [x] Configurar controle CORS habilitado para domínios de frontend
-- [x] Implementar rate limiting global (100 req/minuto) via `@nestjs/throttler`
+- [x] Criar módulo `prisma/` (module, service)
+- [x] Implementar `prisma.service.ts` (extends PrismaClient, onModuleInit)
+- [x] Registrar como módulo global
 
 ---
 
@@ -89,18 +104,36 @@
 
 **Agentes**: API/Backend, Architect
 
-### 3.1 Módulo Generator
+### 3.1 Backend — Generator Module
 
-- [x] Criar módulo, controller e service `generator`
-- [x] Criar DTO para requisição de auto-geração (rows, cols, entrances, exits)
-- [x] **POST /generator**: Endpoint que recebe parâmetros e retorna o grid `JSON` gerado
-- [x] Isolar lógica do algoritmo do fluxo HTTP (Design Pattern: Strategy)
-
-### 3.2 Implementação: Recursive Backtracking
-
-- [x] Base do algoritmo (DFS com stack pseudo-randomizado)
-- [x] Função auxiliar para posicionamento inteligente de entradas/saídas nas bordas
-- [x] Adaptação da saída matricial para o array de objetos JSONB padrão (type, terrain, role)
+- [x] Criar módulo `generator/` (module, controller, service)
+- [x] Implementar interface `MazeAlgorithm`
+  ```typescript
+  interface MazeAlgorithm {
+    generate(rows: number, cols: number, entrances: number, exits: number): MazeCell[][];
+  }
+  ```
+- [x] Implementar `algorithms/recursive-backtracking.ts`
+  - [x] Inicializar grid com todas as células como parede
+  - [x] Implementar DFS com backtracking
+  - [x] Cavar caminhos (marcar como path) durante travessia
+  - [x] Posicionar entradas na borda esquerda/superior
+  - [x] Posicionar saídas na borda direita/inferior
+  - [x] Garantir adjacência entre entrada/saída e caminho interno
+  - [x] Definir terreno aleatório (stone/sand) para cada célula de caminho
+- [x] Implementar `generator.service.ts`
+  - [x] `generate(rows, cols, entrances, exits)` — orquestra a geração
+  - [x] Validação: parâmetros válidos, entradas/saídas cabem na borda
+- [x] Implementar `generator.controller.ts`
+  - [x] `POST /generator/generate`
+- [x] Implementar DTOs de geração (generate-maze.dto.ts)
+- [ ] Testes unitários do algoritmo
+  - [ ] Grid gerado tem dimensões corretas
+  - [ ] Grid tem quantidade correta de entradas e saídas
+  - [ ] Entradas e saídas estão na borda
+  - [ ] Labirinto é solvável (pelo menos um caminho entre entrada e saída)
+  - [ ] Não há ilhas (áreas desconectadas)
+- [ ] Testes E2E do endpoint
 
 ---
 
@@ -114,59 +147,59 @@
 - [ ] Criar `css/controls.css` (painel de configuração abaixo do grid)
 - [ ] Implementar cores distintas para cada estado de célula
   - [ ] Parede: `#2c3e50` (dark stone gray)
-  - [ ] Caminho: `#ecf0f1` (light)
-  - [ ] Entrada: `#2ecc71` (green)
-  - [ ] Saída: `#e74c3c` (red)
-  - [ ] Pedra (terreno): `#7f8c8d` (stone gray)
-  - [ ] Areia (terreno): `#f39c12` (sandy/amber)
-- [ ] Implementar hover state nas células
-- [ ] Implementar transições CSS para mudança de estado
-- [ ] Implementar toolbar de ferramentas do editor
+  - [x] Caminho: `#ecf0f1` (light)
+  - [x] Entrada: `#2ecc71` (green)
+  - [x] Saída: `#e74c3c` (red)
+  - [x] Pedra (terreno): `#7f8c8d` (stone gray)
+  - [x] Areia (terreno): `#f39c12` (sandy/amber)
+- [x] Implementar hover state nas células
+- [x] Implementar transições CSS para mudança de estado
+- [x] Implementar toolbar de ferramentas do editor
 
 ### 4.2 JS — Renderização do Grid
 
-- [ ] Implementar `js/grid.js`
-  - [ ] Função `renderGrid(rows, cols, tileSize)` — cria elementos DOM do grid
-  - [ ] Função `updateCell(row, col, cellData)` — atualiza visual de uma célula
-  - [ ] Função `clearGrid()` — remove grid atual
-  - [ ] Função `getGridData()` — retorna estado atual do grid como array 2D
-  - [ ] Função `loadGrid(gridData)` — carrega grid a partir de dados existentes
-- [ ] Grid deve ser responsivo (scroll horizontal se ultrapassar viewport)
-- [ ] Cada célula deve exibir indicador visual do tipo, terreno e role
+- [x] Implementar `js/grid.js`
+  - [x] Função `renderGrid(rows, cols, tileSize)` — cria elementos DOM do grid
+  - [x] Função `updateCell(row, col, cellData)` — atualiza visual de uma célula
+  - [x] Função `clearGrid()` — remove grid atual
+  - [x] Função `getGridData()` — retorna estado atual do grid como array 2D
+  - [x] Função `loadGrid(gridData)` — carrega grid a partir de dados existentes
+- [x] Grid deve ser responsivo (scroll horizontal se ultrapassar viewport)
+- [x] Cada célula deve exibir indicador visual do tipo, terreno e role
 
 ### 4.3 JS — Editor (Ferramentas)
 
-- [ ] Implementar `js/editor.js`
-  - [ ] Ferramenta: **Parede/Caminho** — click alterna entre wall e path
-  - [ ] Ferramenta: **Terreno** — click define pedra ou areia (dropdown/toggle)
-  - [ ] Ferramenta: **Entrada** — click marca célula como entrada (validar borda e quantidade)
-  - [ ] Ferramenta: **Saída** — click marca célula como saída (validar borda e quantidade)
-  - [ ] Ferramenta ativa deve ter indicação visual (botão highlighted)
-  - [ ] Validação: entrada/saída só em bordas
-  - [ ] Validação: não exceder quantidade configurada de entradas/saídas
-  - [ ] Ao mudar ferramenta ativa, cursor/feedback muda
+- [x] Implementar `js/editor.js`
+  - [x] Ferramenta: **Parede/Caminho** — click alterna entre wall e path
+  - [x] Ferramenta: **Terreno** — click define pedra ou areia (dropdown/toggle)
+  - [x] Ferramenta: **Entrada** — click marca célula como entrada (validar borda e quantidade)
+  - [x] Ferramenta: **Saída** — click marca célula como saída (validar borda e quantidade)
+  - [x] Ferramenta ativa deve ter indicação visual (botão highlighted)
+  - [x] Validação: entrada/saída só em bordas
+  - [x] Validação: não exceder quantidade configurada de entradas/saídas
+  - [x] Ao mudar ferramenta ativa, cursor/feedback muda
 
 ### 4.4 JS — Pathfinding & Exportação
 
-- [ ] Implementar script de resolução `js/pathfinding.js` com algoritmo BFS
-- [ ] Implementar destacamento visual (classe `.route-path`) de rota no grid
-- [ ] Implementar exportação baseada em Blob de um arquivo `maze.json`
+- [x] Implementar script de resolução `js/pathfinding.js` com algoritmo BFS
+- [x] Implementar destacamento visual (classe `.route-path`) de rota no grid
+- [x] Implementar exportação baseada em Blob de um arquivo `maze.json`
 
 ### 4.5 JS — Painel de Configuração (Controls)
 
-- [ ] Implementar `js/controls.js`
-  - [ ] Input: **Linhas** (number, min: 2, max: 100, default: 10)
-  - [ ] Input: **Colunas** (number, min: 2, max: 100, default: 10)
-  - [ ] Input: **Tamanho do Tile** (number, min: 10, max: 200, default: 40, em pixels)
-  - [ ] Input: **Entradas** (number, min: 1, default: 1)
-  - [ ] Input: **Saídas** (number, min: 1, default: 1)
-  - [ ] Input: **Alias** (text, opcional)
-  - [ ] Botão: **Aplicar** — re-renderiza grid com novos parâmetros (reseta grid)
-  - [ ] Botão: **Salvar** — persiste labirinto via API
-  - [ ] Botão: **Auto-Gerar** — solicita geração ao servidor e carrega no grid
-  - [ ] Botão: **Calcular Rota** — destaca a menor rota com BFS
-  - [ ] Botão: **Exportar JSON** — gera e baixa o JSON com os dados do labirinto
-  - [ ] Validação em tempo real dos inputs
+- [x] Implementar `js/controls.js`
+  - [x] Input: **Linhas** (number, min: 2, max: 100, default: 10)
+  - [x] Input: **Colunas** (number, min: 2, max: 100, default: 10)
+  - [x] Input: **Tamanho do Tile** (number, min: 10, max: 200, default: 40, em pixels)
+  - [x] Input: **Entradas** (number, min: 1, default: 1)
+  - [x] Input: **Saídas** (number, min: 1, default: 1)
+  - [x] Input: **Alias** (text, opcional)
+  - [x] Botão: **Aplicar** — re-renderiza grid com novos parâmetros (reseta grid)
+  - [x] Botão: **Salvar** — persiste labirinto via API
+  - [x] Botão: **Auto-Gerar** — solicita geração ao servidor e carrega no grid
+  - [x] Botão: **Calcular Rota** — destaca a menor rota com BFS
+  - [x] Botão: **Exportar JSON** — gera e baixa o JSON com os dados do labirinto
+  - [x] Validação em tempo real dos inputs
 
 ---
 
